@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Use nim stable if BRANCH not set
+if [[ -z "$BRANCH" ]]
+then
+  export BRANCH=stable
+fi
+
 download_nightly() {
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]
   then
@@ -7,11 +13,19 @@ download_nightly() {
     then
       local SUFFIX="linux_x64\.tar\.xz"
     else
+      # linux_arm64, etc
       local SUFFIX="linux_${TRAVIS_CPU_ARCH}\.tar\.xz"
     fi
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]
   then
-    local SUFFIX="osx\.tar\.xz"
+    if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]
+    then
+      # Used to be osx.tar.xz, now is macosx_x64.tar.xz
+      local SUFFIX="macosx_x64\.tar\.xz"
+    else
+      # macosx_arm64, perhaps someday
+      local SUFFIX="macosx_${TRAVIS_CPU_ARCH}\.tar\.xz"
+    fi
   elif [[ "$TRAVIS_OS_NAME" == "windows" ]]
   then
     local SUFFIX="windows_x64\.zip"
@@ -66,10 +80,10 @@ build_nim () {
         return
       fi
     fi
-    # Note: don't cache $HOME/Nim-devel in .travis.yml
+    # Note: don't cache $HOME/Nim-devel in your .travis.yml
     local NIMREPO=$HOME/Nim-devel
   else
-    # Cache $HOME/.choosenim in .travis.yml to avoid rebuilding
+    # Not actually using choosenim, but cache in same location.
     local NIMREPO=$HOME/.choosenim/toolchains/nim-$BRANCH-$TRAVIS_CPU_ARCH
   fi
 

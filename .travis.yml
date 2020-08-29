@@ -40,7 +40,7 @@ matrix:
 
 cache:
   directories:
-    - "$HOME/.choosenim"
+    - "$HOME/.choosenim" # cache nim binaries
 
 install:
   - curl https://raw.githubusercontent.com/genotrance/nim-travis/master/travis.sh -LsSf -o travis.sh
