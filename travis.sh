@@ -83,8 +83,8 @@ build_nim () {
     # Note: don't cache $HOME/Nim-devel in your .travis.yml
     local NIMREPO=$HOME/Nim-devel
   else
-    # Cache $HOME/Nim in .travis.yml to avoid rebuilding
-    local NIMREPO=$HOME/Nim/$BRANCH-$TRAVIS_CPU_ARCH
+    # Not actually using choosenim, but cache in same location.
+    local NIMREPO=$HOME/.choosenim/toolchains/nim-$BRANCH-$TRAVIS_CPU_ARCH
   fi
 
   export PATH=$NIMREPO/bin:$PATH
