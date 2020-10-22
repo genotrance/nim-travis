@@ -135,7 +135,7 @@ use_choosenim () {
     # Copy DLLs for choosenim
     if [[ "$TRAVIS_OS_NAME" == "windows" ]]
     then
-      cp $HOME/.nimble/bin/*.dll $GITBIN/.
+      cp $HOME/.nimble/bin/*.dll $GITBIN/. || true
     fi
   else
     echo "choosenim already installed"
